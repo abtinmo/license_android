@@ -16,7 +16,6 @@ class License {
   }
 }
 
-
 class LicenseDetail {
   final String licenseText;
   final String name;
@@ -32,5 +31,3 @@ class LicenseDetail {
     );
   }
 }
-
-
