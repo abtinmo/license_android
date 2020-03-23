@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import './http_requests.dart';
-import './moduls/lisence_moduls.dart';
+import 'package:dio/dio.dart';
 
 void main() => runApp(MyApp());
 
@@ -12,50 +11,126 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'license'),
+      home: MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
-
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  Future<License> futureAlbum;
+  String nextPage = "http://192.168.43.216:8000/license/";
+
+  ScrollController _scrollController = ScrollController();
+
+  bool isLoading = false;
+
+  List names = List();
+
+  final dio = Dio();
+  void _getMoreData() async {
+    if (!isLoading) {
+      setState(() {
+        isLoading = true;
+      });
+
+      final response = await dio.get(nextPage);
+      List tempList = List();
+      nextPage = response.data["data"]['next'];
+      for (int i = 0; i < response.data["data"]['results'].length; i++) {
+        tempList.add(response.data["data"]['results'][i]);
+      }
+
+      setState(() {
+        isLoading = false;
+        names.addAll(tempList);
+      });
+    }
+  }
+
   @override
   void initState() {
+    this._getMoreData();
     super.initState();
-    futureAlbum = fetchLicenseList();
-    print(futureAlbum);
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        _getMoreData();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  Widget _buildProgressIndicator() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Center(
+        child: Opacity(
+          opacity: isLoading ? 1.0 : 00,
+          child: CircularProgressIndicator(),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildList() {
+    return ListView.builder(
+      //+1 for progressbar
+      itemCount: names.length + 1,
+      itemBuilder: (BuildContext context, int index) {
+        if (index == names.length) {
+          return _buildProgressIndicator();
+        } else {
+          return ListTile(
+            title: Text(names[index]),
+            trailing: IconButton(
+                icon: Icon(Icons.more),
+                onPressed: () {
+                  print(names[index]);
+                }),
+          );
+        }
+      },
+      controller: _scrollController,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: ListView(
-        children: <Widget>[
-          Card(
-            child: ListTile(
-              title: Text('One-line with trailing widget'),
-              trailing: IconButton(icon: Icon(Icons.more), onPressed: null),
+        title: const Text("license"),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.info,
+              color: Colors.white,
             ),
+            onPressed: () {
+              print("get app info");
+            },
           ),
         ],
       ),
+      body: Container(
+        child: _buildList(),
+      ),
       floatingActionButton: FloatingActionButton(
-        onPressed: null,
+        onPressed: () {
+          print("do search");
+        },
         tooltip: 'Increment',
         child: Icon(Icons.search),
       ),
+      resizeToAvoidBottomPadding: false,
     );
   }
 }
