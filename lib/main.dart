@@ -22,7 +22,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String nextPage = "http://192.168.43.216:8000/license/";
+  String nextPage = "http://api.newbtin.ir/license/";
 
   ScrollController _scrollController = ScrollController();
 
