@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import './about_screen.dart';
+import './license_detail_screen.dart';
 import 'package:dio/dio.dart';
-
 
 class MainScreen extends StatefulWidget {
   @override
@@ -9,7 +9,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
- String nextPage = "http://api.newbtin.ir/license/";
+  String nextPage = "http://api.newbtin.ir/license/";
 
   ScrollController _scrollController = ScrollController();
 
@@ -78,7 +78,14 @@ class _MainScreenState extends State<MainScreen> {
         } else {
           return ListTile(
             title: Text(names[index]),
-            trailing: IconButton(icon: Icon(Icons.more), onPressed: () {}),
+            trailing: IconButton(
+                icon: Icon(Icons.more),
+                onPressed: () {
+                  Navigator.of(context).pushNamed(
+                    LicenseDetail.routeName,
+                    arguments: names[index],
+                  );
+                }),
           );
         }
       },

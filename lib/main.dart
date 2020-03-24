@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import './screens/about_screen.dart';
+import './screens/license_detail_screen.dart';
 import './screens/main_screen.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -13,11 +15,9 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        // '/': (ctx) => CategoriesScreen(),
         '/': (ctx) => MainScreen(),
         AboutScreen.routeName: (ctx) => AboutScreen(),
-        // MealDetailScreen.routeName: (ctx) => MealDetailScreen(),
-        // FiltersScreen.routeName: (ctx) => FiltersScreen(),
+        LicenseDetail.routeName: (ctx) => LicenseDetail(),
       },
     );
   }
