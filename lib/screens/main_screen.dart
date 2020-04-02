@@ -9,7 +9,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  String nextPage = "http://api.newbtin.ir/license/";
+  String nextPage = "https://license.newbtin.ir/license";
 
   ScrollController _scrollController = ScrollController();
 

@@ -16,7 +16,7 @@ class _LicenseDetailState extends State<LicenseDetail> {
   final dio = Dio();
   void _getDetail(licenseName) async {
     final response =
-        await dio.get("http://api.newbtin.ir/license/" + licenseName);
+        await dio.get("https://license.newbtin.ir/license/" + licenseName);
     if (this.dataLoaded == false) {
       setState(
         () {
