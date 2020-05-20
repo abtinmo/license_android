@@ -16,7 +16,7 @@ class _LicenseDetailState extends State<LicenseDetail> {
   final dio = Dio();
   void _getDetail(licenseName) async {
     final response =
-        await dio.get("https://license.newbtin.ir/license/" + licenseName);
+        await dio.get("http://license.newbtin.ir/license/" + licenseName);
     if (this.dataLoaded == false) {
       setState(
         () {
@@ -27,16 +27,20 @@ class _LicenseDetailState extends State<LicenseDetail> {
     }
   }
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   // _getDetail();
-  // }
-
   @override
   Widget build(BuildContext context) {
     String licenseName = ModalRoute.of(context).settings.arguments;
     this._getDetail(licenseName);
+    if (!this.dataLoaded) {
+      return Scaffold(
+        appBar: AppBar(
+          title: Text(licenseName),
+        ),
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text(licenseName),

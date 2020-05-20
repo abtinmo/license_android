@@ -9,7 +9,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  String nextPage = "https://license.newbtin.ir/license";
+  String nextPage = "http://license.newbtin.ir/license/";
 
   ScrollController _scrollController = ScrollController();
 
@@ -79,13 +79,14 @@ class _MainScreenState extends State<MainScreen> {
           return ListTile(
             title: Text(names[index]),
             trailing: IconButton(
-                icon: Icon(Icons.more),
-                onPressed: () {
-                  Navigator.of(context).pushNamed(
-                    LicenseDetail.routeName,
-                    arguments: names[index],
-                  );
-                }),
+              icon: Icon(Icons.more),
+              onPressed: () {
+                Navigator.of(context).pushNamed(
+                  LicenseDetail.routeName,
+                  arguments: names[index],
+                );
+              },
+            ),
           );
         }
       },
@@ -113,13 +114,13 @@ class _MainScreenState extends State<MainScreen> {
       body: Container(
         child: _buildList(),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          print("do search");
-        },
-        tooltip: 'Increment',
-        child: Icon(Icons.search),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     print("do search");
+      //   },
+      //   tooltip: 'Increment',
+      //   child: Icon(Icons.search),
+      // ),
       resizeToAvoidBottomPadding: false,
     );
   }
